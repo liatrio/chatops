@@ -17,7 +17,7 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
       callback_id: "greetings_click",
       actions: [
         { type: "button", name: "Wave", text: ":wave:", value: ":wave:" },
-        { type: "button", name: "Hello", text: "Hello", value: "Hello" },
+        { type: "button", name: "Hello!", text: "Hello!", value: "Hello!" },
         { type: "button", name: "Howdy", text: "Howdy", value: "Howdy" },
         { type: "button", name: "Hiya", text: "Hiya", value: "Hiya" }
       ]
