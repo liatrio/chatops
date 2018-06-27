@@ -13,8 +13,7 @@
     "lambda",
     "dynamo",
     "template",
-    "serverless",
-    "jenkins-api"
+    "serverless"
   ],
   "repository": {
     "type": "git",
@@ -24,6 +23,7 @@
     "url": "https://github.com/johnagan/serverless-slack-app/issues"
   },
   "dependencies": {
+    "jenkins-api": "^0.3.1",
     "serverless-slack": "^1.0.25"
   }
 }
