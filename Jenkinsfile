@@ -23,8 +23,7 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh 'npm install -g serverless'
-        sh 'npm install -g jenkins-api'
+        sh 'npm install -g serverless jenkins-api'
         sh 'serverless deploy'
       }
     }
