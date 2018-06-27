@@ -41,7 +41,9 @@ slack.on('/create-pipeline', (msg, bot) => {
 		// no msg text, need a subcommand
 		bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
 	} else {
-	  jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name:msg.text}, function(err, data) {
+	  jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
+	    console.log(data);
+	    console.log(err);
         if(err){
             bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
         }else{
