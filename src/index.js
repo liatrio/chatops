@@ -5,7 +5,7 @@ const slack = require('serverless-slack');
 
 //set up jenkins connection
 var jenkinsapi = require('jenkins-api');
-var serverAddr = 'https://' + ${process.env.JENKINS_API_CREDENTIALS} + '@build.liatrio.com';
+var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
 var jenkins = jenkinsapi.init(serverAddr);
 
 
