@@ -51,6 +51,10 @@ slack.on('/create-pipeline', (msg, bot) => {
 //        }
 //      });
 //    }
+
+
+    console.log(jenkinsapi)
+    console.log(jenkins)
     bot.replyPrivate({text:'before call'});
     jenkins.all_jobs(function(err, data) {
         console.log(err);
