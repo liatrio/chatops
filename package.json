@@ -13,7 +13,8 @@
     "lambda",
     "dynamo",
     "template",
-    "serverless"
+    "serverless",
+    "jenkins-api"
   ],
   "repository": {
     "type": "git",

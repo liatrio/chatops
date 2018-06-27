@@ -13,6 +13,7 @@ pipeline {
     SLACK_CLIENT_SECRET = credentials('pipeline-pal-slack-client-secret')
     AWS_ACCESS_KEY_ID = credentials('shanem-aws-secret-key-id')
     AWS_SECRET_ACCESS_KEY = credentials('shanem-aws-secret-access-key')
+    JENKINS_API_CREDENTIALS = credentials('pipeline-pal-jenkins-credentials')
   }
   stages {
     stage('Build') {
