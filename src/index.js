@@ -37,6 +37,7 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
+    console.log('debugging');
     if (msg.text === '') {
 		// no msg text, need a subcommand
 		bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
