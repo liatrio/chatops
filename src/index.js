@@ -36,20 +36,29 @@ slack.on('/create-pipeline', (msg, bot) => {
     var jenkinsapi = require('jenkins-api');
     var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
     var jenkins = jenkinsapi.init(serverAddr);
-    console.log("serverAddr: " + serverAddr);
-    if (msg.text === '') {
-        console.log('no parameter passed');
-        bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
-    } else {
-      console.log('parameter passed: ' + msg.text);
-      jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
-        if(err){
-            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
-        } else {
-            bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"});
-        }
-      });
-    }
+//    console.log(jenkins);
+//    console.log("serverAddr: " + serverAddr);
+//    if (msg.text === '') {
+//        console.log('no parameter passed');
+//        bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
+//    } else {
+//      console.log('parameter passed: ' + msg.text);
+//      jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
+//        if(err){
+//            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
+//        } else {
+//            bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"});
+//        }
+//      });
+//    }
+    bot.replyPrivate({text:'before call'});
+    jenkins.all_jobs(function(err, data) {
+        console.log(err);
+        console.log("***********************************");
+        console.log(data);
+    });
+    bot.replyPrivate({text:'after call'});
+
 });
 
 
