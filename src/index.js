@@ -42,13 +42,13 @@ slack.on('/create-pipeline', (msg, bot) => {
         bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
     } else {
       console.log('parameter passed: ' + msg.text);
-      console.log(jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
+      jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
         if(err){
             bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
         } else {
             bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"});
         }
-      }));
+      });
     }
 });
 
