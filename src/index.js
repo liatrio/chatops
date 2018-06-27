@@ -5,7 +5,7 @@ const slack = require('serverless-slack');
 
 //set up jenkins connection
 var jenkinsapi = require('jenkins-api');
-var jenkins = jenkinsapi.init(`https://${process.env.JENKINS_API_CREDENTIALS}@jenkins.company.com`);
+var jenkins = jenkinsapi.init(`https://${process.env.JENKINS_API_CREDENTIALS}@build.liatrio.com`);
 
 
 // The function that AWS Lambda will call
