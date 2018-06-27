@@ -37,7 +37,7 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
-    console.log("serverAddr: " + serverAddr)
+    console.log("serverAddr: " + serverAddr);
     if (msg.text === '') {
         console.log('no parameter passed');
         bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
@@ -47,7 +47,8 @@ slack.on('/create-pipeline', (msg, bot) => {
         if(err){
             bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
         } else {
-            bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"})
+            bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"});
+        }
       });
     }
 });
