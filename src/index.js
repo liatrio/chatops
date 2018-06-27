@@ -9,6 +9,8 @@ exports.handler = slack.handler.bind(slack);
 
 
 // Slash Command handler
+
+//Greeter (to validate bot is working)
 slack.on('/pipeline-pal-greet', (msg, bot) => {
   let message = {
     text: "How would you like to greet the channel?",
@@ -26,6 +28,16 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
   // ephemeral reply
   bot.replyPrivate(message); 
+});
+
+//Command to create a pipeline with a given name
+slack.on('/create-pipeline', (msg, bot) => {
+    if (msg.text === '') {
+		// no msg text, need a subcommand
+		bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
+	} else {
+	  bot.replyPrivate({text:'You want a pipeline named: ' + msg.text + '?'});
+	}
 });
 
 
