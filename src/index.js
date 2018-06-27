@@ -5,7 +5,8 @@ const slack = require('serverless-slack');
 
 //set up jenkins connection
 var jenkinsapi = require('jenkins-api');
-var jenkins = jenkinsapi.init(`https://${process.env.JENKINS_API_CREDENTIALS}@build.liatrio.com`);
+var serverAddr = 'https://' + ${process.env.JENKINS_API_CREDENTIALS} + '@build.liatrio.com';
+var jenkins = jenkinsapi.init(serverAddr);
 
 
 // The function that AWS Lambda will call
@@ -40,14 +41,14 @@ slack.on('/create-pipeline', (msg, bot) => {
 		// no msg text, need a subcommand
 		bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
 	} else {
-	  bot.replyPrivate({text: 'Starting...'})
+	  bot.replyPrivate({text: 'Starting... (using ' + serverAddr + ')'})
 	  jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {depth: 1, pipeline_name:'fromslackbot_' + msg.text}, function(err, data) {
         if(err){
-            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err})
+            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
         }
-        bot.replyPrivate({text: 'Pipeline (maybe?) started: ' + data})
+        bot.replyPrivate({text: 'Pipeline (maybe?) started: ' + data});
       });
-      bot.replyPrivate({text: 'Done.'})
+      bot.replyPrivate({text: 'Done.'});
 	}
 });
 
