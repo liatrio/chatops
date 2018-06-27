@@ -3,11 +3,6 @@
 // Include the serverless-slack bot framework
 const slack = require('serverless-slack');
 
-//set up jenkins connection
-var jenkinsapi = require('jenkins-api');
-var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
-var jenkins = jenkinsapi.init(serverAddr);
-
 
 // The function that AWS Lambda will call
 exports.handler = slack.handler.bind(slack);
@@ -37,6 +32,10 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
+    //set up jenkins connection
+    var jenkinsapi = require('jenkins-api');
+    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
+    var jenkins = jenkinsapi.init(serverAddr);
     console.log("serverAddr: " + serverAddr);
     if (msg.text === '') {
         console.log('no parameter passed');
