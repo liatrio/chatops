@@ -33,6 +33,8 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
 
+    var buildServer = 'build.liatrio.com';
+
     var jenkinsApi = require('jenkins-api');
     var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
     var jenkins = jenkinsApi.init(serverAddr);
@@ -43,11 +45,12 @@ slack.on('/create-pipeline', (msg, bot) => {
     } else {
         console.log("Command received with name: " + msg.text);
         console.log("Using job name: " + process.env.JENKINS_TARGET_JOB);
+        console.log("Job should be located at https://" + buildServer + "/job/" + process.env.JENKINS_TARGET_JOB)
         jenkins.build_with_params(process.env.JENKINS_TARGET_JOB, {pipeline_name: msg.text}, function(err, data) {
             if(err || data.statusCode != 201){
                 bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
             } else {
-                bot.replyPrivate({text: "Job started.  Look for it here: https://build.liatrio.com/job/" + process.env.JENKINS_TARGET_JOB});
+                bot.replyPrivate({text: "Job started.  Look for it here: https://" + buildServer + "/job/" + process.env.JENKINS_TARGET_JOB});
             }
         });
     }
