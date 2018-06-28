@@ -55,6 +55,9 @@ custom:
   # Credentials for the bot to access the Jenkins API
   jenkins_api_credentials: ${env:JENKINS_API_CREDENTIALS}
 
+  # Jenkins target job
+  jenkins_target_job: ${env:JENKINS_TARGET_JOB}
+
 
   
 
@@ -81,6 +84,7 @@ provider:
     VERIFICATION_TOKEN: ${self:custom.slack_verification_token}
     ENABLE_LOGGING: ${self:custom.slack_enable_logging}
     JENKINS_API_CREDENTIALS: ${self:custom.jenkins_api_credentials}
+    JENKINS_TARGET_JOB: ${self:custom.jenkins_target_job}
 
 
 
