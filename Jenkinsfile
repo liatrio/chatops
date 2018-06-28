@@ -7,7 +7,7 @@ pipeline {
     }
   }
   parameters {
-    string(name: 'jenkins_target_job',
+    string(name: 'JENKINS_TARGET_JOB',
             defaultValue: 'pipeline-pal-folder/job/pipeline-pal-dummy-job',
             description: 'This is the target job that the slackbot will trigger to create new pipelines')
   }
@@ -19,7 +19,7 @@ pipeline {
     AWS_ACCESS_KEY_ID = credentials('shanem-aws-secret-key-id')
     AWS_SECRET_ACCESS_KEY = credentials('shanem-aws-secret-access-key')
     JENKINS_API_CREDENTIALS = credentials('pipeline-pal-jenkins-credentials')
-    JENKINS_TARGET_JOB = "${params.jenkins_target_job}"
+//    JENKINS_TARGET_JOB = "${params.JENKINS_TARGET_JOB}"
   }
   stages {
     stage('Build') {
