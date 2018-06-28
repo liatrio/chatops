@@ -40,12 +40,10 @@ slack.on('/create-pipeline', (msg, bot) => {
     var jenkins = jenkinsApi.init(serverAddr);
 
     if (msg.text === '') {
-        console.log('no parameter passed');
-        bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
+        bot.replyPrivate({text:"Pipeline name wasn't specified - use `/create-pipeline [pipeline-name]`"});
     } else {
-      console.log('parameter passed: ' + msg.text);
       jenkins.build_with_params(jobName, {pipeline_name: msg.text}, function(err, data) {
-        if(err){
+        if(err || data.statusCode != 201){
             bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
         } else {
             bot.replyPrivate({text: "Job started.  Look for it here: https://build.liatrio.com/job/" + jobName});
