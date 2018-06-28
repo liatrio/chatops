@@ -32,57 +32,26 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
-//        console.log('no parameter passed');
-//        bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
-//    } else {
-//      console.log('parameter passed: ' + msg.text);
-//      jenkins.build_with_params('pipeline-pal-folder/job/pipeline-pal-dummy-job', {pipeline_name: msg.text}, function(err, data) {
-//        if(err){
-//            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
-//        } else {
-//            bot.replyPrivate({text: "Job started.  Check it out here: https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job"});
-//        }
-//      });
-//    }
-//    console.log(jenkinsApi)
-//    console.log(jenkins)
-//    bot.replyPrivate({text:'before call'});
-//    jenkins.all_jobs(function(err, data) {
-//        console.log(err);
-//        console.log("***********************************");
-//        console.log(data);
-//    });
-//    bot.replyPrivate({text:'after call'});
 
-    //basic request to validate connection
-    var username = process.env.JENKINS_API_CREDENTIALS.split(':')[0];
-    var password = process.env.JENKINS_API_CREDENTIALS.split(':')[1];
-
-    var request = require('request');
-    request.get('https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job/lastBuild/api/json', function (error, response, body) {
-      console.log('error:', error); // Print the error if one occurred
-      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      console.log('body:', body); // Print the HTML for the Google homepage.
-    }).auth(username, password, true);
-
-
+    var jobName = 'pipeline-pal-folder/job/pipeline-pal-dummy-job';
 
     var jenkinsApi = require('jenkins-api');
-//    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
-//    var jenkins = jenkinsApi.init(serverAddr);
+    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
+    var jenkins = jenkinsApi.init(serverAddr);
 
-    const { URL } = require('url');
-    const jenkinsUrl = new URL('https://build.liatrio.com');
-    jenkinsUrl.username = username;
-    jenkinsUrl.password = password;
-    var jenkins = jenkinsApi.init(jenkinsUrl.href);
-
-    jenkins.last_build_info('pipeline-pal-folder/job/pipeline-pal-dummy-job', function(err, data) {
-      if (err){ return console.log(err); }
-      console.log(data);
-    });
-
-
+    if (msg.text === '') {
+        console.log('no parameter passed');
+        bot.replyPrivate({text:'You didn\'t pass any parameters. Do you need \`/create-pipeline help\`?'});
+    } else {
+      console.log('parameter passed: ' + msg.text);
+      jenkins.build_with_params(jobName, {pipeline_name: msg.text}, function(err, data) {
+        if(err){
+            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
+        } else {
+            bot.replyPrivate({text: "Job started.  Look for it here: https://build.liatrio.com/job/" + jobName});
+        }
+      });
+    }
 
 });
 
