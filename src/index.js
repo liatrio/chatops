@@ -48,6 +48,8 @@ slack.on('/create-pipeline', (msg, bot) => {
         console.log("Job should be located at https://" + buildServer + "/job/" + process.env.JENKINS_TARGET_JOB)
         jenkins.build_with_params(process.env.JENKINS_TARGET_JOB, {pipeline_name: msg.text}, function(err, data) {
             if(err || data.statusCode != 201){
+                console.log("An error occurred: " + err + "\n Data:");
+                console.log(data);
                 bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
             } else {
                 bot.replyPrivate({text: "Job started.  Look for it here: https://" + buildServer + "/job/" + process.env.JENKINS_TARGET_JOB});
