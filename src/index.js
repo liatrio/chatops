@@ -38,15 +38,18 @@ slack.on('/create-pipeline', (msg, bot) => {
     var jenkins = jenkinsApi.init(serverAddr);
 
     if (msg.text === '') {
+        console.log('Command received with no name specified');
         bot.replyPrivate({text:"Pipeline name wasn't specified - use `/create-pipeline [pipeline-name]`"});
     } else {
-      jenkins.build_with_params(process.env.JENKINS_TARGET_JOB, {pipeline_name: msg.text}, function(err, data) {
-        if(err || data.statusCode != 201){
-            bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
-        } else {
-            bot.replyPrivate({text: "Job started.  Look for it here: https://build.liatrio.com/job/" + process.env.JENKINS_TARGET_JOB});
-        }
-      });
+        console.log("Command received with name: " + msg.text);
+        console.log("Using job name: " + process.env.JENKINS_TARGET_JOB);
+        jenkins.build_with_params(process.env.JENKINS_TARGET_JOB, {pipeline_name: msg.text}, function(err, data) {
+            if(err || data.statusCode != 201){
+                bot.replyPrivate({text: 'There was an error with creating your pipeline: ' + err});
+            } else {
+                bot.replyPrivate({text: "Job started.  Look for it here: https://build.liatrio.com/job/" + process.env.JENKINS_TARGET_JOB});
+            }
+        });
     }
 
 });
