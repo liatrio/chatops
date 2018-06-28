@@ -32,10 +32,11 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
-    //set up jenkins connection
-    var jenkinsapi = require('jenkins-api');
-    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
-    var jenkins = jenkinsapi.init(serverAddr);
+
+//    var jenkinsapi = require('jenkins-api');
+//    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
+//    var jenkins = jenkinsapi.init(serverAddr);
+
 //    console.log(jenkins);
 //    console.log("serverAddr: " + serverAddr);
 //    if (msg.text === '') {
@@ -51,17 +52,34 @@ slack.on('/create-pipeline', (msg, bot) => {
 //        }
 //      });
 //    }
+//    console.log(jenkinsapi)
+//    console.log(jenkins)
+//    bot.replyPrivate({text:'before call'});
+//    jenkins.all_jobs(function(err, data) {
+//        console.log(err);
+//        console.log("***********************************");
+//        console.log(data);
+//    });
+//    bot.replyPrivate({text:'after call'});
 
 
-    console.log(jenkinsapi)
-    console.log(jenkins)
-    bot.replyPrivate({text:'before call'});
-    jenkins.all_jobs(function(err, data) {
-        console.log(err);
-        console.log("***********************************");
-        console.log(data);
-    });
-    bot.replyPrivate({text:'after call'});
+var request = require('request');
+request.get('http://www.google.com', function (error, response, body) {
+  console.log('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML for the Google homepage.
+});
+
+var username = process.env.JENKINS_API_CREDENTIALS.split(':')[0];
+var password = process.env.JENKINS_API_CREDENTIALS.split(':')[1];
+
+var request = require('request');
+request.get('https://build.liatrio.com/job/pipeline-pal-folder/job/pipeline-pal-dummy-job/lastBuild/api/json', function (error, response, body) {
+  console.log('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML for the Google homepage.
+}).auth(username, password, true);
+
 
 });
 
