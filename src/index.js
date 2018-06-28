@@ -79,7 +79,7 @@ slack.on('/create-pipeline', (msg, bot) => {
 
     jenkins.last_build_info('pipeline-pal-folder/job/pipeline-pal-dummy-job', function(err, data) {
       if (err){ return console.log(err); }
-      console.log(data)
+      console.log(data);
     });
 
 
