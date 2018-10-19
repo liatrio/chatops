@@ -42,14 +42,13 @@ slack.on('/greet', (msg, bot) => {
       actions: [
         { type: "button", name: "game", text: "Chess", value: "chess" },
         { type: "button", name: "game", text: "Falken's Maze", value: "maze" },
-        { type: "button", name: "game", text: "Thermonuclear War", style, "danger", 
+        { type: "button", name: "game", text: "Thermonuclear War", style, "danger", value: "war",
           confirm: {
             title: "Are you sure?",
             text: "Wouldn't you like to play a nice game of chess?",
             ok_text: "Yes",
             dismiss_text: "No"
           }
-          value: "war" 
         }
       ]
     }]
