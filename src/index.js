@@ -30,6 +30,16 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
   bot.replyPrivate(message); 
 });
 
+
+slack.on('/greet', (msg, bot) => {
+  let message = {
+    text: "How would you like to greet the channel?",
+  };
+
+  // ephemeral reply
+  bot.reply(message); 
+});
+
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
 
