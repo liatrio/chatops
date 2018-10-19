@@ -33,21 +33,21 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 slack.on('/greet', (msg, bot) => {
   let message = {
-    text: "Would you like to play a game?",
-    attachments: [{
-      text: "Choose a game",
-      fallback: 'unable to choose a game',
-      callback_id: "wopr_game",
-      color: "#3AA3E3",
-      actions: [
-        { type: "button", name: "game", text: "Chess", value: "chess" },
-        { type: "button", name: "game", text: "Falken's Maze", value: "maze" },
-        { type: "button", name: "game", text: "Thermonuclear War", style, "danger", value: "war",
-          confirm: {
-            title: "Are you sure?",
-            text: "Wouldn't you like to play a nice game of chess?",
-            ok_text: "Yes",
-            dismiss_text: "No"
+    "text": "Would you like to play a game?",
+    "attachments": [{
+      "text": "Choose a game",
+      "fallback": 'unable to choose a game',
+      "callback_id": "wopr_game",
+      "color": "#3AA3E3",
+      "actions": [
+        { "type": "button", "name": "game", "text": "Chess", "value": "chess" },
+        { "type": "button", "name": "game", "text": "Falken's Maze", "value": "maze" },
+        { "type": "button", "name": "game", "text": "Thermonuclear War", "style": "danger", "value": "war",
+          "confirm": {
+            "title": "Are you sure?",
+            "text": "Wouldn't you like to play a nice game of chess?",
+            "ok_text": "No",
+            "dismiss_text": "Yes"
           }
         }
       ]
@@ -87,6 +87,25 @@ slack.on('/create-pipeline', (msg, bot) => {
 
 });
 
+// Interactive Message handler
+slack.on('wopr_game', (msg, bot) => {
+  var message;
+  if (msg.actions[0].value == "war"){
+    message = {
+      "title": "Build",
+      "color": "#3AA3E3",
+      "pretext": "Building our app",
+      "text": "Building Credit Card app",
+      "mrkdwn_in": [
+        "text",
+        "pretext"
+      ]
+    };
+  }
+
+  // public reply
+  bot.reply(message);
+});
 
 // Interactive Message handler
 slack.on('greetings_click', (msg, bot) => {
