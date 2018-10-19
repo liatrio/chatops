@@ -33,11 +33,30 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 slack.on('/greet', (msg, bot) => {
   let message = {
-    text: "How would you like to greet the channel?",
+    text: "Would you like to play a game?",
+    attachments: [{
+      text: "Choose a game",
+      fallback: 'unable to choose a game',
+      callback_id: "wopr_game",
+      color: "#3AA3E3",
+      actions: [
+        { type: "button", name: "game", text: "Chess", value: "chess" },
+        { type: "button", name: "game", text: "Falken's Maze", value: "maze" },
+        { type: "button", name: "game", text: "Thermonuclear War", style, "danger", 
+          confirm: {
+            title: "Are you sure?",
+            text: "Wouldn't you like to play a nice game of chess?",
+            ok_text: "Yes",
+            dismiss_text: "No"
+          }
+          value: "war" 
+        }
+      ]
+    }]
   };
 
   // ephemeral reply
-  bot.reply(message); 
+  bot.replyPrivate(message); 
 });
 
 //Command to create a pipeline with a given name
