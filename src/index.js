@@ -55,7 +55,7 @@ slack.on('/greet', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.replyPrivate(message); 
+  bot.reply(message); 
 });
 
 //Command to create a pipeline with a given name
@@ -91,7 +91,7 @@ slack.on('/create-pipeline', (msg, bot) => {
 slack.on('wopr_game', (msg, bot) => {
   var message;
   if (msg.actions[0].value == "war"){
-    message = {
+    msg = {
       "title": "Build",
       "pretext": "Building our app",
       "attachments": [{
@@ -105,10 +105,24 @@ slack.on('wopr_game', (msg, bot) => {
         "pretext"
       ]
     };
+    //message = {
+    //  "title": "Build",
+    //  "pretext": "Building our app",
+    //  "attachments": [{
+    //    "author_name": "Building Credit Card app",
+    //    "author_icon": "https://images.atomist.com/rug/pulsating-circle.gif",
+    //    "color": "#45B254",
+    //    "fallback": 'unable to choose a game'
+    //  }],
+    //  "mrkdwn_in": [
+    //    "text",
+    //    "pretext"
+    //  ]
+    //};
   }
 
   // public reply
-  bot.reply(message);
+  bot.reply(msg);
 });
 
 // Interactive Message handler
