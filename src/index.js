@@ -33,16 +33,15 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 
 slack.on('/greet', (msg, bot) => {
   let message = {
-    "text": "Would you like to play a game?",
+    "text": "Would you like to merge?",
     "attachments": [{
       "text": "Choose a game",
       "fallback": 'unable to choose a game',
       "callback_id": "wopr_game",
       "color": "#3AA3E3",
       "actions": [
-        { "type": "button", "name": "game", "text": "Chess", "value": "chess" },
-        { "type": "button", "name": "game", "text": "Falken's Maze", "value": "maze" },
-        { "type": "button", "name": "game", "text": "Thermonuclear War", "style": "danger", "value": "war",
+        { "type": "button", "name": "game", "text": "No", "style": "danger", "value": "no" },
+        { "type": "button", "name": "game", "text": "Yes", "style": "primary", "value": "yes",
           "confirm": {
             "title": "Are you sure?",
             "text": "Wouldn't you like to play a nice game of chess?",
@@ -87,16 +86,36 @@ slack.on('/create-pipeline', (msg, bot) => {
 
 });
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+
+}
 // Interactive Message handler
 slack.on('wopr_game', (msg, bot) => {
   var message;
-  if (msg.actions[0].value == "war"){
+  if (msg.actions[0].value == "yes"){
     msg = {
       "title": "Build",
       "pretext": "Building our app",
       "attachments": [{
         "author_name": "Building Credit Card app",
         "author_icon": "https://images.atomist.com/rug/pulsating-circle.gif",
+        "color": "#cccc00",
+        "fallback": 'unable to choose a game'
+      }],
+      "mrkdwn_in": [
+        "text",
+        "pretext"
+      ]
+    };
+    bot.reply(msg);
+    await sleep(2000);
+    msg = {
+      "title": "Build",
+      "pretext": "Built our app",
+      "attachments": [{
+        "author_name": "Build has passed!",
+        "author_icon": "https://images.atomist.com/rug/check-circle.png",
         "color": "#45B254",
         "fallback": 'unable to choose a game'
       }],
@@ -105,24 +124,12 @@ slack.on('wopr_game', (msg, bot) => {
         "pretext"
       ]
     };
-    //message = {
-    //  "title": "Build",
-    //  "pretext": "Building our app",
-    //  "attachments": [{
-    //    "author_name": "Building Credit Card app",
-    //    "author_icon": "https://images.atomist.com/rug/pulsating-circle.gif",
-    //    "color": "#45B254",
-    //    "fallback": 'unable to choose a game'
-    //  }],
-    //  "mrkdwn_in": [
-    //    "text",
-    //    "pretext"
-    //  ]
-    //};
+    bot.reply(msg);
   }
 
   // public reply
-  bot.reply(msg);
+
+
 });
 
 // Interactive Message handler
