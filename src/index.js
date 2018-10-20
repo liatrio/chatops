@@ -96,7 +96,7 @@ slack.on('wopr_game', (msg, bot) => {
       "pretext": "Building our app",
       "attachments": [{
         "author_name": "Building Credit Card app",
-        "author_icon": "https://images.atomist.com/rug/check-circle.png",
+        "author_icon": "https://images.atomist.com/rug/pulsating-circle.gif",
         "color": "#45B254",
         "fallback": 'unable to choose a game'
       }],
