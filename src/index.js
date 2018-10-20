@@ -35,7 +35,7 @@ slack.on('/greet', (msg, bot) => {
   let message = {
     "text": "Would you like to merge?",
     "attachments": [{
-      "text": "Choose a game",
+      "text": "Would you like to merge?",
       "fallback": 'unable to choose a game',
       "callback_id": "wopr_game",
       "color": "#3AA3E3",
@@ -44,9 +44,9 @@ slack.on('/greet', (msg, bot) => {
         { "type": "button", "name": "game", "text": "Yes", "style": "primary", "value": "yes",
           "confirm": {
             "title": "Are you sure?",
-            "text": "Wouldn't you like to play a nice game of chess?",
-            "ok_text": "No",
-            "dismiss_text": "Yes"
+            "text": "You only should if you know the build will pass.",
+            "ok_text": "Yes",
+            "dismiss_text": "No"
           }
         }
       ]
@@ -86,10 +86,6 @@ slack.on('/create-pipeline', (msg, bot) => {
 
 });
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-
-}
 // Interactive Message handler
 slack.on('wopr_game', (msg, bot) => {
   var message;
@@ -109,7 +105,13 @@ slack.on('wopr_game', (msg, bot) => {
       ]
     };
     bot.reply(msg);
-    await sleep(2000);
+    var start = new Date().getTime();
+    for (var i = 0; i < 10000000; i++) {
+      if ((new Date().getTime() - start) > 10000){
+              break;
+      }
+        
+    }
     msg = {
       "title": "Build",
       "pretext": "Built our app",
