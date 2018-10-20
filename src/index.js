@@ -93,9 +93,13 @@ slack.on('wopr_game', (msg, bot) => {
   if (msg.actions[0].value == "war"){
     message = {
       "title": "Build",
-      "color": "#3AA3E3",
       "pretext": "Building our app",
-      "text": "Building Credit Card app",
+      "attachments": [{
+        "author_name": "Building Credit Card app",
+        "author_icon": "https://images.atomist.com/rug/check-circle.png",
+        "color": "#45B254",
+        "fallback": 'unable to choose a game'
+      }],
       "mrkdwn_in": [
         "text",
         "pretext"
