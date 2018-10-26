@@ -31,9 +31,8 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 });
 
 
-slack.on('/greet', (msg, bot) => {
+slack.on('/build', (msg, bot) => {
   let message = {
-    "text": "Would you like to merge?",
     "attachments": [{
       "text": "Would you like to merge?",
       "fallback": 'unable to choose a game',
