@@ -31,6 +31,15 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
 });
 
 
+slack.on('/greet', (msg, bot) => {
+  let message = {
+    "text": "Hello world!"
+  };
+
+  // ephemeral reply
+  bot.reply(message); 
+});
+
 slack.on('/build', (msg, bot) => {
   let message = {
     "attachments": [{
