@@ -94,6 +94,26 @@ slack.on('/create-pipeline', (msg, bot) => {
 
 });
 
+//Command to create a pipeline with a given name
+slack.on('/launch-pipeline', (msg, bot) => {
+
+    var buildServer = 'build.liatrio.com';
+
+    var jenkinsApi = require('jenkins-api');
+    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
+    var jenkins = jenkinsApi.init(serverAddr);
+
+    jenkins.build('pipeline-pal-folder/job/testing/job/rich-slack', function(err, data) {
+        if(err || data.statusCode != 201){
+            console.log("An error occurred: " + err + "\n Data:");
+            console.log(data);
+            bot.replyPrivate({text: 'There was an error starting pipeline: ' + err});
+        } else {
+            bot.replyPrivate({text: "Job started.  Look for it here: https://" + buildServer + "/job/" + "pipeline-pal-folder/job/testing/job/rich-slack"});
+        }
+    });
+
+});
 // Interactive Message handler
 slack.on('wopr_game', (msg, bot) => {
   var message;
