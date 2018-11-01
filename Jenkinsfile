@@ -8,7 +8,7 @@ pipeline {
   }
   parameters {
     string(name: 'JENKINS_TARGET_JOB',
-x             defaultValue: 'Pipeline-Demo-Creator/job/master',
+            defaultValue: 'Pipeline-Demo-Creator/job/master',
             description: 'This is the target job that the slackbot will trigger to create new pipelines')
   }
   environment {
