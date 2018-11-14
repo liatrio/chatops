@@ -31,6 +31,41 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
   bot.replyPrivate(message); 
 });
 
+
+slack.on('/greet', (msg, bot) => {
+  let message = {
+    "text": "Hello world!"
+  };
+
+  // ephemeral reply
+  bot.reply(message); 
+});
+
+slack.on('/build', (msg, bot) => {
+  let message = {
+    "attachments": [{
+      "text": "Would you like to merge?",
+      "fallback": 'unable to choose a game',
+      "callback_id": "wopr_game",
+      "color": "#3AA3E3",
+      "actions": [
+        { "type": "button", "name": "game", "text": "No", "style": "danger", "value": "no" },
+        { "type": "button", "name": "game", "text": "Yes", "style": "primary", "value": "yes",
+          "confirm": {
+            "title": "Are you sure?",
+            "text": "You only should if you know the build will pass.",
+            "ok_text": "Yes",
+            "dismiss_text": "No"
+          }
+        }
+      ]
+    }]
+  };
+
+  // ephemeral reply
+  bot.reply(message); 
+});
+
 //Command to create a pipeline with a given name
 slack.on('/create-pipeline', (msg, bot) => {
 
@@ -60,6 +95,73 @@ slack.on('/create-pipeline', (msg, bot) => {
 
 });
 
+//Command to create a pipeline with a given name
+slack.on('/launch-pipeline', (msg, bot) => {
+
+    var buildServer = 'build.liatrio.com';
+
+    var jenkinsApi = require('jenkins-api');
+    var serverAddr = 'https://' + process.env.JENKINS_API_CREDENTIALS + '@build.liatrio.com';
+    var jenkins = jenkinsApi.init(serverAddr);
+
+    jenkins.build('pipeline-pal-folder/job/testing/job/rich-slack', function(err, data) {
+        if(err || data.statusCode != 201){
+            console.log("An error occurred: " + err + "\n Data:");
+            console.log(data);
+            bot.replyPrivate({text: 'There was an error starting pipeline: ' + err});
+        } else {
+            bot.replyPrivate({text: "Job started.  Look for it here: https://" + buildServer + "/job/" + "pipeline-pal-folder/job/testing/job/rich-slack"});
+        }
+    });
+
+});
+// Interactive Message handler
+slack.on('wopr_game', (msg, bot) => {
+  var message;
+  if (msg.actions[0].value == "yes"){
+    msg = {
+      "title": "Build",
+      "pretext": "Building our app",
+      "attachments": [{
+        "author_name": "Building Credit Card app",
+        "author_icon": "https://images.atomist.com/rug/pulsating-circle.gif",
+        "color": "#cccc00",
+        "fallback": 'unable to choose a game'
+      }],
+      "mrkdwn_in": [
+        "text",
+        "pretext"
+      ]
+    };
+    bot.reply(msg);
+    var start = new Date().getTime();
+    for (var i = 0; i < 10000000; i++) {
+      if ((new Date().getTime() - start) > 10000){
+              break;
+      }
+        
+    }
+    msg = {
+      "title": "Build",
+      "pretext": "Built our app",
+      "attachments": [{
+        "author_name": "Build has passed!",
+        "author_icon": "https://images.atomist.com/rug/check-circle.png",
+        "color": "#45B254",
+        "fallback": 'unable to choose a game'
+      }],
+      "mrkdwn_in": [
+        "text",
+        "pretext"
+      ]
+    };
+    bot.reply(msg);
+  }
+
+  // public reply
+
+
+});
 
 // Interactive Message handler
 slack.on('greetings_click', (msg, bot) => {
