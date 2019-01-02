@@ -115,6 +115,14 @@ slack.on('/launch-pipeline', (msg, bot) => {
     });
 
 });
+
+//Command to create a pipeline with a given name
+slack.on('/get-tickets', (msg, bot) => {
+
+  bot.reply("Retrieving JIRA tickets...");
+
+});
+
 // Interactive Message handler
 slack.on('wopr_game', (msg, bot) => {
   var message;
