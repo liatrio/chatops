@@ -179,12 +179,13 @@ slack.on('/get-tickets2', (msg, bot) => {
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
     };
 
-    var temp_Size = 5;
-
-    for (var i = temp_Size; i >= 0; i++)
+    for (var j = 0; j < 5; i++)
     {
-        ticket.push(temp[i]);
+        ticket.push(temp[j]);
     }
+
+
+    console.log(ticket[3].summary);
 
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
