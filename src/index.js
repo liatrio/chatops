@@ -184,13 +184,17 @@ slack.on('/get-tickets2', (msg, bot) => {
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
     };
 
+    ticket.push(temp0);
+    ticket.push(temp1);
+    ticket.push(temp2);
+    ticket.push(temp3);
+    ticket.push(temp4);
+    /*
     for (var j = 0; j < 5; i++)
     {
         ticket.push(temp[j]);
     }
-
-
-    console.log(ticket[3].summary);
+    */
 
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
@@ -200,6 +204,7 @@ slack.on('/get-tickets2', (msg, bot) => {
         };
         bot.reply(message);
     }
+    bot.reply(message);
 });
 
 // Interactive Message handler
