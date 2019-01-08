@@ -147,34 +147,51 @@ slack.on('/get-tickets2', (msg, bot) => {
 
    // bot.reply({text: "Testing"});
     var ticket = [];
+
+     var temp0 = {
+       t_summary: "Research Ways To Embed Kibana Into A Webpage",
+       t_status: "To Demo",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-121"
+    };
     var temp1 = {
-       t_summary: "Sample Summary",
-       t_status: "Done",
-       t_link: "http://www.google.com"
+       t_summary: "Canvas JS demo",
+       t_status: "To Do",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-122"
     };
 
     var temp2 = {
-       t_summary: "Sample Summary2",
-       t_status: "In Prog",
-       t_link: "http://www.youtube.com"
+       t_summary: "Grafana Demo",
+       t_status: "To Do",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-123"
     };
 
-    ticket.push(temp1);
-    ticket.push(temp2);
+     var temp3 = {
+       t_summary: "Dashboard ElasticSearch Mapping",
+       t_status: "In Progress",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-124"
+    };
 
+     var temp4 = {
+       t_summary: "Research pulling results from Selenium into ElasticSearch",
+       t_status: "In Progress",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
+    };
+
+    var temp_Size = 5;
+
+    for (var i = temp_Size; i >= 0; i++)
+    {
+        ticket.push(temp[i]);
+    }
 
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
-        var temp = ticket[i].t_link
-       // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
         let message =  {
-            "text": `<${temp}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
+            "text": `<${ticket[i].t_link|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
         };
         bot.reply(message);
     }
-    bot.reply(message);
-   //bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
 });
 
 // Interactive Message handler
