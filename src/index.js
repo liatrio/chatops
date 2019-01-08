@@ -119,7 +119,7 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
-  bot.reply("Retrieving JIRA tickets...");
+  bot.reply({text: "getting JIRA tickets... "});
 
 });
 
