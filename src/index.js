@@ -121,7 +121,7 @@ slack.on('/get-tickets', (msg, bot) => {
 
   // var jiraApi = require('jira-api');
   var test_text = process.env.TEST;
-  bot.reply({text: "TEST var: " + test_text});
+  // bot.reply({text: "TEST var: " + test_text});
   // var options = {
   //   config: {
   //     "username": process.env.ATLASSIAN_USER,
