@@ -125,9 +125,9 @@ slack.on('/get-tickets', (msg, bot) => {
        t_link: "www.google.com"
     };
 
-    var message = str.link(t_link);
-    bot.reply({text: ticket.t_summary + '-' + ticket.t_status);
-    bot.reply({text: message + '-' + ticket.t_status);
+   // var message = str.link(t_link);
+    bot.reply({text: ticket.t_summary + '-' + ticket.t_status});
+    bot.reply({text: message + '-' + ticket.t_status});
 
 });
 
