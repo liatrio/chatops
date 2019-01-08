@@ -119,7 +119,7 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
-  var jiraApi = require('jira-api');
+  // var jiraApi = require('jira-api');
   var text = process.env.TEST;
   bot.reply({text: text});
   // var options = {
