@@ -139,7 +139,9 @@ slack.on('/get-tickets', (msg, bot) => {
       if (error) {
         bot.reply({text: "There was an error: " + error});
       } else {
-        bot.reply({text: boards});
+        for (var board in boards) {
+          bot.reply({text: board});
+        }
       }
     });
   }
