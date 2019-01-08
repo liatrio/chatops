@@ -119,26 +119,31 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
-  var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
-  var JiraClient = require('jira-connector');
+  if (msg.text == "") {
+    bot.reply({text: "Please specify a JIRA board to query."});
+  } else {
 
-  var jira = new JiraClient( {
-    host: 'liatrio.atlassian.net',
-    basic_auth: {
-      username: JIRA_CREDS.split(":")[0],
-      password: JIRA_CREDS.split(":")[1]
-    }
-  });
+    var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
+    var JiraClient = require('jira-connector');
 
-  jira.issue.getIssue({
-    issueKey: 'LIB-15'
-  }, function(error, issue) {
-    if (error) {
-      bot.reply({text: "There was an error: " + error});
-    } else {
-      bot.reply({text: issue.fields.summary});
-    }
-  });
+    var jira = new JiraClient( {
+      host: 'liatrio.atlassian.net',
+      basic_auth: {
+        username: JIRA_CREDS.split(":")[0],
+        password: JIRA_CREDS.split(":")[1]
+      }
+    });
+
+    jira.issue.getIssue({
+      issueKey: msg.text
+    }, function(error, issue) {
+      if (error) {
+        bot.reply({text: "There was an error: " + error});
+      } else {
+        bot.reply({text: issue.fields.summary});
+      }
+    });
+  }
 
 });
 
