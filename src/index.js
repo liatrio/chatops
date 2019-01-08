@@ -119,6 +119,35 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
+  var jiraApi = require('jira-api');
+  var text = process.env.TEST;
+  bot.reply({text: text});
+  // var options = {
+  //   config: {
+  //     "username": process.env.ATLASSIAN_USER,
+  //     "passowrd": "secretpass",
+  //     "host": "example.com/jira/"
+  //   },
+  //   data: {
+  //     fields: {
+  //       project: {
+  //         key: "PROJ999",
+  //       },
+  //       priority: {
+  //         name: "Critical",
+  //       },
+  //       summary: "A short summary of the issue",
+  //       description: "A more elaborate decription of the issue",
+  //       issueType: {
+  //         name: "Improvement"
+  //       },
+  //       assignee: {
+  //         name: "Bob"
+  //       }
+  //     }
+  //   }
+  // };
+
     var ticket = [];
     var temp1 = {
        t_summary: "Sample Summary",
