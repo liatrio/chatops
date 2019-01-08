@@ -143,20 +143,20 @@ slack.on('/get-tickets', (msg, bot) => {
 //Dev Command to create a pipeline with a given name
 slack.on('/get-tickets2', (msg, bot) => {
 
-  bot.reply({text: "Hyperlink <http://www.google.com|here>"});
+  bot.reply({text: "Showing Tickets for ___"});
 
    // bot.reply({text: "Testing"});
     var ticket = [];
     var temp1 = {
        t_summary: "Sample Summary",
        t_status: "Done",
-       t_link: "www.google.com"
+       t_link: "http://www.google.com"
     };
 
     var temp2 = {
        t_summary: "Sample Summary2",
        t_status: "In Prog",
-       t_link: "www.youtube.com"
+       t_link: "http://www.youtube.com"
     };
 
     ticket.push(temp1);
