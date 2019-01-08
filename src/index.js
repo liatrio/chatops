@@ -167,10 +167,9 @@ slack.on('/get-tickets2', (msg, bot) => {
         let message =  {
             attachments: [
                 {
-                    //pretext: "Listing tickets for ___",
-                    title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
-                    title_link: "www.google.com",
-                    text: "Temp output - " + temp
+                    "title": ticket[i].t_summary + ' - ' + ticket[i].t_status,
+                    "title_link": temp,
+                    "text": "Temp output - " + temp
                 }
             ]
         };
