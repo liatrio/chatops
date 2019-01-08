@@ -136,6 +136,8 @@ slack.on('/get-tickets', (msg, bot) => {
     console.log(issue.fields.summary);
   });
 
+  bot.reply({title: "Test", title_link: "www.google.com", color: '#36a64f'});
+
 });
 
 //Dev Command to create a pipeline with a given name
