@@ -155,29 +155,34 @@ slack.on('/get-tickets2', (msg, bot) => {
     var ticket = [];
 
      var temp0 = {
+       t_number: "121",
        t_summary: "Research Ways To Embed Kibana Into A Webpage",
        t_status: "To Demo",
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-121"
     };
     var temp1 = {
+       t_number: "122",
        t_summary: "Canvas JS demo",
        t_status: "To Do",
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-122"
     };
 
     var temp2 = {
+       t_number: "123",
        t_summary: "Grafana Demo",
        t_status: "To Do",
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-123"
     };
 
      var temp3 = {
+       t_number: "124",
        t_summary: "Dashboard ElasticSearch Mapping",
        t_status: "In Progress",
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-124"
     };
 
      var temp4 = {
+       t_number: "125",
        t_summary: "Research pulling results from Selenium into ElasticSearch",
        t_status: "In Progress",
        t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
@@ -199,9 +204,9 @@ slack.on('/get-tickets2', (msg, bot) => {
     for (var i = 0; i < ticket_Length; i++)
     {
         let message =  {
-            "text": `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
+            "text": ticket[i].t_number +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
         };
-        bot.reply(message);
+       // bot.reply(message);
     }
     bot.reply(message);
 });
