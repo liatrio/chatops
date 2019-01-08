@@ -169,7 +169,7 @@ slack.on('/get-tickets2', (msg, bot) => {
         var temp = ticket[i].t_link
        // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
         let message =  {
-            "text": "<http://www.google.com|ticket[i].t_summary> + ' - ' + ticket[i].t_status"
+            "text": "<temp|ticket[i].t_summary>" + ' - ' + ticket[i].t_status
         };
         bot.reply(message);
     }
