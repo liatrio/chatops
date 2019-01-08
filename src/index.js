@@ -175,9 +175,9 @@ slack.on('/get-tickets', (msg, bot) => {
     //                 title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
     //                 title_link: ticket[i].t_link
     //             }
-    //     );
+    //         ]
+    //     });
     // }
-
    // bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
 });
 
