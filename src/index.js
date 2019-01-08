@@ -178,7 +178,7 @@ slack.on('/get-tickets2', (msg, bot) => {
             text: "Displaying Tickets for ___",
             attachments: [
                 {
-                    title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
+                    title: <http:/\/www.google.com|ticket[i].t_summary> + ' - ' + ticket[i].t_status,
                     title_link: ticket[i].t_link
                 }
             ]
