@@ -207,9 +207,10 @@ slack.on('/get-tickets2', (msg, bot) => {
         let message =  {
             "text": ticket[i].t_number +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
         };
-       // bot.reply(message);
+
+        bot.reply(message);
     }
-    bot.reply(message);
+   // bot.reply(message);
 });
 
 // Interactive Message handler
