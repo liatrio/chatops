@@ -119,19 +119,21 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
-  var jiraApi = require('jira-api');
   var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
-  var options = {
-    config: {
-      "username": JIRA_CREDS.split(":")[0],
-      "password": JIRA_CREDS.split(":")[1],
-      "host": "https://liatrio.atlassian.net"
-    },
-    issueIdOrKey: "15"
-  };
-
-  jira.issue.get(options, function(response) {
-    bot.reply({text: JSON.stringify(response, null, 4)});
+  var JiraClient = require('jira-connector');
+ 
+  var jira = new JiraClient( {
+    host: 'liatrio.atlassian.net',
+    basic_auth: {
+      username: JIRA_CREDS.split(":")[0],
+      password: JIRA_CREDS.split(":")[1]
+    }
+  });
+   
+  jira.issue.getIssue({
+    issueKey: 'LIB-15'
+  }, function(error, issue) {
+    console.log(issue.fields.summary);
   });
 
 });
