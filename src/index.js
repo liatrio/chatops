@@ -190,7 +190,7 @@ slack.on('/get-tickets2', (msg, bot) => {
     for (var i = 0; i < ticket_Length; i++)
     {
         let message =  {
-            "text": `<${ticket[i].t_link|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
+            "text": `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status
         };
         bot.reply(message);
     }
