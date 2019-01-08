@@ -151,6 +151,9 @@ slack.on('/get-tickets', (msg, bot) => {
 
 //Dev Command to create a pipeline with a given name
 slack.on('/get-tickets2', (msg, bot) => {
+
+
+    bot.reply({text: "Testing"});
     var ticket = [];
     var temp1 = {
        t_summary: "Sample Summary",
