@@ -121,7 +121,7 @@ slack.on('/get-tickets', (msg, bot) => {
 
   var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
   var JiraClient = require('jira-connector');
- 
+
   var jira = new JiraClient( {
     host: 'liatrio.atlassian.net',
     basic_auth: {
@@ -129,7 +129,7 @@ slack.on('/get-tickets', (msg, bot) => {
       password: JIRA_CREDS.split(":")[1]
     }
   });
-   
+
   jira.issue.getIssue({
     issueKey: 'LIB-15'
   }, function(error, issue) {
@@ -167,9 +167,9 @@ slack.on('/get-tickets2', (msg, bot) => {
         let message =  {
             attachments: [
                 {
-                    pretext: "Listing tickets for ___",
+                    //pretext: "Listing tickets for ___",
                     title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
-                    title_link: temp + '',
+                    title_link: "www.google.com",
                     text: "Temp output - " + temp
                 }
             ]
