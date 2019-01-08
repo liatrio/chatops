@@ -58,6 +58,9 @@ custom:
   # Jenkins target job
   jenkins_target_job: ${env:JENKINS_TARGET_JOB}
 
+  # Credentials for the bot to access the JIRA API
+  jira_api_credentials: ${env:JIRA_API_CREDENTIALS}
+
 
   
 
@@ -85,6 +88,8 @@ provider:
     ENABLE_LOGGING: ${self:custom.slack_enable_logging}
     JENKINS_API_CREDENTIALS: ${self:custom.jenkins_api_credentials}
     JENKINS_TARGET_JOB: ${self:custom.jenkins_target_job}
+    JIRA_API_CREDENTIALS: ${self:custom.jira_api_credentials}
+
 
 
 

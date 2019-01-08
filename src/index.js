@@ -120,8 +120,8 @@ slack.on('/launch-pipeline', (msg, bot) => {
 slack.on('/get-tickets', (msg, bot) => {
 
   // var jiraApi = require('jira-api');
-  var test_text = process.env.TEST;
-  bot.reply({text: "TEST var: " + test_text});
+  var test_text = process.env.JIRA_API_CREDENTIALS;
+  bot.replyPrivate({text: "TEST var: " + test_text});
   // var options = {
   //   config: {
   //     "username": process.env.ATLASSIAN_USER,
