@@ -28,7 +28,7 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.replyPrivate(message); 
+  bot.replyPrivate(message);
 });
 
 
@@ -38,7 +38,7 @@ slack.on('/greet', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.reply(message); 
+  bot.reply(message);
 });
 
 slack.on('/build', (msg, bot) => {
@@ -63,7 +63,7 @@ slack.on('/build', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.reply(message); 
+  bot.reply(message);
 });
 
 //Command to create a pipeline with a given name
@@ -119,7 +119,15 @@ slack.on('/launch-pipeline', (msg, bot) => {
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
-  bot.reply("Retrieving JIRA tickets...");
+    var ticket = {
+       t_summary: "Sample Summary",
+       t_status: "Done",
+       t_link: "www.google.com"
+    };
+
+    var message = str.link(t_link);
+    bot.reply({text: ticket.t_summary + '-' + ticket.t_status);
+    bot.reply({text: message + '-' + ticket.t_status);
 
 });
 
@@ -147,7 +155,7 @@ slack.on('wopr_game', (msg, bot) => {
       if ((new Date().getTime() - start) > 10000){
               break;
       }
-        
+
     }
     msg = {
       "title": "Build",
@@ -173,10 +181,10 @@ slack.on('wopr_game', (msg, bot) => {
 
 // Interactive Message handler
 slack.on('greetings_click', (msg, bot) => {
-  let message = { 
+  let message = {
     // selected button value
-    text: msg.actions[0].value 
-  };  
+    text: msg.actions[0].value
+  };
 
   // public reply
   bot.reply(message);
@@ -185,7 +193,7 @@ slack.on('greetings_click', (msg, bot) => {
 
 // Reaction Added event handler
 slack.on('reaction_added', (msg, bot) => {
-  bot.reply({ 
-    text: ':wave:' 
+  bot.reply({
+    text: ':wave:'
   });
 });
