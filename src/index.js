@@ -133,10 +133,12 @@ slack.on('/get-tickets', (msg, bot) => {
   jira.issue.getIssue({
     issueKey: 'LIB-15'
   }, function(error, issue) {
-    console.log(issue.fields.summary);
+    if (error) {
+      bot.reply({text: "There was an error: " + error});
+    } else {
+      bot.reply({text: issue.fields.summary});
+    }
   });
-
-  bot.reply({title: "Test", title_link: "www.google.com", color: '#36a64f'});
 
 });
 
