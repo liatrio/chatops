@@ -147,7 +147,6 @@ slack.on('/get-tickets', (msg, bot) => {
   //     }
   //   }
   // };
-    //
     // var ticket = [];
     // var temp1 = {
     //    t_summary: "Sample Summary",
@@ -168,11 +167,9 @@ slack.on('/get-tickets', (msg, bot) => {
     // var ticket_Length = ticket.length;
     // for (var i = 0; i < ticket_Length; i++)
     // {
-    //    // ticket[i].t_summary = ticket[i].t_link;
-    //     bot.reply({text: <ticket[i].t_link|ticket[i].t_summary> + ' - ' + ticket[i].t_status});
+    //     var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
+    //     bot.reply({text: linkedText + ' - ' + ticket[i].t_status});
     // }
-
-
 
    // bot.reply({text: ticket.t_summary + '-' + ticket.t_status});
    // bot.reply({text: message + '-' + ticket.t_status});
