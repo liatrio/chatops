@@ -121,31 +121,18 @@ slack.on('/get-tickets', (msg, bot) => {
 
   var jiraApi = require('jira-api');
   var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
-  // var options = {
-  //   config: {
-  //     "username": process.env.ATLASSIAN_USER,
-  //     "passowrd": "secretpass",
-  //     "host": "example.com/jira/"
-  //   },
-  //   data: {
-  //     fields: {
-  //       project: {
-  //         key: "PROJ999",
-  //       },
-  //       priority: {
-  //         name: "Critical",
-  //       },
-  //       summary: "A short summary of the issue",
-  //       description: "A more elaborate decription of the issue",
-  //       issueType: {
-  //         name: "Improvement"
-  //       },
-  //       assignee: {
-  //         name: "Bob"
-  //       }
-  //     }
-  //   }
-  // };
+  var options = {
+    config: {
+      "username": JIRA_CREDS.split(":")[0],
+      "password": JIRA_CREDS.split(":")[1],
+      "host": "https://liatrio.atlassian.net"
+    },
+    issueIdOrKey: "15"
+  };
+
+  jira.issue.get(options, function(response) {
+    bot.reply({text: JSON.stringify(response, null, 4)});
+  });
 
 });
 
