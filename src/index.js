@@ -147,37 +147,41 @@ slack.on('/get-tickets', (msg, bot) => {
   //   }
   // };
 
-    // var ticket = [];
-    // var temp1 = {
-    //    t_summary: "Sample Summary",
-    //    t_status: "Done",
-    //    t_link: "www.google.com"
-    // };
-    //
-    // var temp2 = {
-    //    t_summary: "Sample Summary2",
-    //    t_status: "In Prog",
-    //    t_link: "www.youtube.com"
-    // };
-    //
-    // ticket.push(temp1);
-    // ticket.push(temp2);
-    //
-    //
-    // var ticket_Length = ticket.length;
-    // for (var i = 0; i < ticket_Length; i++)
-    // {
-    //    // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
-    //     bot.reply(message, {
-    //         attachments: [
-    //             {
-    //                 title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
-    //                 title_link: ticket[i].t_link
-    //             }
-    //         ]
-    //     });
-    // }
-   // bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
+});
+
+//Dev Command to create a pipeline with a given name
+slack.on('/get-tickets2', (msg, bot) => {
+    var ticket = [];
+    var temp1 = {
+       t_summary: "Sample Summary",
+       t_status: "Done",
+       t_link: "www.google.com"
+    };
+
+    var temp2 = {
+       t_summary: "Sample Summary2",
+       t_status: "In Prog",
+       t_link: "www.youtube.com"
+    };
+
+    ticket.push(temp1);
+    ticket.push(temp2);
+
+
+    var ticket_Length = ticket.length;
+    for (var i = 0; i < ticket_Length; i++)
+    {
+       // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
+        bot.reply(message, {
+            attachments: [
+                {
+                    title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
+                    title_link: ticket[i].t_link
+                }
+            ]
+        });
+    }
+   bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
 });
 
 // Interactive Message handler
