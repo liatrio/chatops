@@ -134,14 +134,13 @@ slack.on('/get-tickets', (msg, bot) => {
       }
     });
 
-    jira.board.getAllBoards({
-    }, function(error, boards) {
+    jira.board.getIssuesFromBoard({
+      projectKey: msg.text
+    }, function(error, issues) {
       if (error) {
         bot.reply({text: "There was an error: " + error});
       } else {
-        for (var board in boards.values) {
-          bot.reply({text: board.location.projectKey});
-        }
+        bot.reply({text: issues});
       }
     });
   }
