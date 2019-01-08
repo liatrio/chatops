@@ -173,6 +173,7 @@ slack.on('/get-tickets2', (msg, bot) => {
     {
        // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
         bot.reply(message, {
+            text: "Displaying Tickets for ___",
             attachments: [
                 {
                     title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
@@ -181,7 +182,7 @@ slack.on('/get-tickets2', (msg, bot) => {
             ]
         });
     }
-   bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
+   //bot.reply({text: ticket[i].t_summary + '-' + ticket[i].t_status});
 });
 
 // Interactive Message handler
