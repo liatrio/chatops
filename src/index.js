@@ -160,13 +160,15 @@ slack.on('/get-tickets2', (msg, bot) => {
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
+        var temp = ticket[i].t_link
        // var linkedText = <ticket[i].t_link|ticket[i].t_summary>;
         let message =  {
-            text: "Displaying Tickets for ___",
             attachments: [
                 {
-                    title: <http:/\/www.google.com|ticket[i].t_summary> + ' - ' + ticket[i].t_status,
-                    title_link: ticket[i].t_link
+                    pretext: "Listing tickets for ___",
+                    title: ticket[i].t_summary + ' - ' + ticket[i].t_status,
+                    title_link: temp + '',
+                    text: "Temp output - " + temp
                 }
             ]
         };
