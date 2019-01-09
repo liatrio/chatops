@@ -199,11 +199,11 @@ slack.on('/get-tickets2', (msg, bot) => {
     }
     */
 
-    var message = 'Showing Tickets for ___ \n'
+    var message = 'Showing Tickets for ' + msg.txt + '\n'
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
-        message += ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
+        message += 'Ticket # ' + ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
        // bot.reply({text: message});
     }
     bot.reply({text: message});
