@@ -2,6 +2,8 @@
 
 // Include the serverless-slack bot framework
 const slack = require('serverless-slack');
+const request = require('request');
+var querystring = require('querystring');
 
 
 // The function that AWS Lambda will call
@@ -113,6 +115,57 @@ slack.on('/launch-pipeline', (msg, bot) => {
             bot.replyPrivate({text: "Job started.  Look for it here: https://" + buildServer + "/job/" + "pipeline-pal-folder/job/testing/job/rich-slack"});
         }
     });
+
+});
+
+//Command to take a ticket with a certain ID
+slack.on('/take-ticket', (msg, bot) => {
+
+  if (msg.text == "") {
+    bot.reply({text: "Please specify a JIRA ticket to assign to yourself."});
+  } else {
+
+    var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
+    var JiraClient = require('jira-connector');
+
+    var jira = new JiraClient( {
+      host: 'liatrio.atlassian.net',
+      basic_auth: {
+        username: JIRA_CREDS.split(":")[0],
+        password: JIRA_CREDS.split(":")[1]
+      }
+    });
+
+    console.log(msg);
+    const auth = "Bearer " + process.env.ACCESS_TOKEN;
+    const key = msg.text.trim();
+    const options = { 
+      method: 'GET', url: 'https://liatrio.slack.com/api/users.list',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': auth }
+    };
+    request(options, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        const list = JSON.parse(body);
+        console.log(list);
+        for (var i = 0; i < list.members.length; i++){
+          if (list.members[i].name == msg.user_name){
+            jira.issue.assignIssue({ issueKey: key, assignee: list.members[i].profile.email.split("@")[0]}, function(error, issue) {
+              if (error) {
+                bot.replyPrivate({text: "failure"});
+              }
+              else {
+                bot.replyPrivate({text: "Issue has been assigned to you."});
+              }
+            });
+          }
+        }
+      }
+      else {
+        console.log(error);
+      }
+    });
+
+  }
 
 });
 

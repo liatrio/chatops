@@ -25,6 +25,8 @@
   "dependencies": {
     "jenkins-api": "^0.3.1",
     "jira-connector": "^2.10.0",
+    "querystring": "^0.2.0",
+    "request": "^2.88.0",
     "serverless-slack": "^1.0.25"
   }
 }
