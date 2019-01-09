@@ -150,9 +150,6 @@ slack.on('/get-tickets', (msg, bot) => {
 
 //Dev Command to create a pipeline with a given name
 slack.on('/get-tickets2', (msg, bot) => {
-
-  bot.reply({text: "Showing Tickets for ___"});
-
    // bot.reply({text: "Testing"});
     var ticket = [];
 
@@ -202,12 +199,12 @@ slack.on('/get-tickets2', (msg, bot) => {
     }
     */
 
-    var message = ''
+    var message = 'Showing Tickets for ___ \n'
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
         message += ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status;
-        bot.reply({text: message});
+       // bot.reply({text: message});
     }
     bot.reply({text: message});
 });
