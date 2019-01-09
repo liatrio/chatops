@@ -135,7 +135,8 @@ slack.on('/get-tickets', (msg, bot) => {
     });
 
     jira.board.getIssuesForBoard({
-      projectKey: msg.text
+      projectKey: "LIB"
+      // projectKey: msg.text
     }, function(error, issues) {
       if (error) {
         bot.reply({text: "There was an error: " + error});
