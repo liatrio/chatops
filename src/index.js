@@ -201,12 +201,14 @@ slack.on('/get-tickets2', (msg, bot) => {
     }
     */
 
-    var message = []
+    var message = ''
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
-        message.push(ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n');
+        message += ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
        // bot.reply({text: ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status});
+
+        bot.reply(message);
     }
     bot.reply(message);
 });
