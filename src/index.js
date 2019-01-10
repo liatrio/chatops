@@ -203,7 +203,7 @@ slack.on('/get-tickets2', (msg, bot) => {
     var ticket_Length = ticket.length;
     for (var i = 0; i < ticket_Length; i++)
     {
-        message += 'Ticket # ' + ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
+        message += msg.text + '-' + ticket[i].t_number + ' : ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
     }
     bot.reply({text: message});
 });
