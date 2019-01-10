@@ -123,8 +123,12 @@ slack.on('/get-tickets', (msg, bot) => {
     bot.reply({text: "Please specify a JIRA board to query."});
   } else {
 
+    console.log("Valid get tickets command");
+
     var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
     var JiraClient = require('jira-connector');
+
+    console.log("API initialized");
 
     var jira = new JiraClient( {
       host: 'liatrio.atlassian.net',
@@ -134,6 +138,8 @@ slack.on('/get-tickets', (msg, bot) => {
       }
     });
 
+    console.log("JIRA auth");
+
     // jira.issue.getIssue({
     //   issueKey: msg.text
     // }, function(error, issue) {
@@ -141,8 +147,10 @@ slack.on('/get-tickets', (msg, bot) => {
       // projectKey: msg.text
     }, function(error, issues) {
       if (error) {
+        console.log(error);
         bot.reply({text: "There was an error: " + error});
       } else {
+        console.log(issues);
         bot.reply({text: issues});
       }
     });
