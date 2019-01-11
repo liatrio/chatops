@@ -153,8 +153,10 @@ slack.on('/get-tickets', (msg, bot) => {
         console.log("error");
         bot.reply({text: "There was an error: " + error});
       } else {
-        console.log("workt");
-        bot.reply({text: issues});
+        console.log(issues);
+        for (issue in issues) {
+          bot.reply({text: issue.summary + " - " issue.issuetype});
+        }
       }
     });
   }
