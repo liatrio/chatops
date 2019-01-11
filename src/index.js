@@ -150,10 +150,10 @@ slack.on('/get-tickets', (msg, bot) => {
     // }, function(error, issue) {
     jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
-        console.log(error);
+        console.log("error");
         bot.reply({text: "There was an error: " + error});
       } else {
-        console.log(issues);
+        console.log("workt");
         bot.reply({text: issues});
       }
     });
