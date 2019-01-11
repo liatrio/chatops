@@ -140,18 +140,18 @@ slack.on('/get-tickets', (msg, bot) => {
 
     console.log("JIRA auth");
 
-    // jira.issue.getIssue({
-    //   issueKey: msg.text
-    // }, function(error, issue) {
-    jira.board.getIssuesForBoard({
-      boardId: msg.text
-    }, function(error, issues) {
+    jira.issue.getIssue({
+      issueKey: msg.text
+    }, function(error, issue) {
+    // jira.board.getIssuesForBoard({
+    //   boardId: msg.text
+    // }, function(error, issues) {
       if (error) {
         console.log(error);
         bot.reply({text: "There was an error: " + error});
       } else {
         console.log(issues);
-        bot.reply({text: issues});
+        bot.reply({text: issue.fields.summary});
       }
     });
   }
