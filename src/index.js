@@ -141,7 +141,7 @@ slack.on('/get-tickets', (msg, bot) => {
     console.log("JIRA auth");
 
     var opts = {
-      boardId: "LIB",
+      boardId: msg.text,
       fields: ["issuetype", "summary"]
     };
 
