@@ -150,7 +150,7 @@ slack.on('/get-tickets', (msg, bot) => {
         console.log(error);
         bot.reply({text: "There was an error: " + error});
       } else {
-        console.log(issues);
+        console.log(issue);
         bot.reply({text: issue.fields.summary});
       }
     });
