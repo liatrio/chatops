@@ -142,7 +142,7 @@ slack.on('/get-tickets', (msg, bot) => {
 
     var opts = {
       boardId: "LIB",
-      maxResults: 10
+      fields: ["issuetype", "summary"]
     };
 
     // jira.issue.getIssue({
