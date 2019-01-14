@@ -139,10 +139,12 @@ slack.on('/get-tickets', (msg, bot) => {
     });
 
     console.log("JIRA auth");
+    console.log(msg);
+    console.log(msg.text);
 
     var opts = {
       boardId: msg.text,
-      fields: ["issuetype", "summary"]
+      fields: ["status", "summary"]
     };
 
     // jira.issue.getIssue({
@@ -155,6 +157,7 @@ slack.on('/get-tickets', (msg, bot) => {
       } else {
         console.log(issues.issues.length);
         for (var i = 0; i < issues.issues.length; i++) {
+          bot.reply({text: issues.issues[i].summary});
           console.log(issues.issues[i]);
         }
       }
