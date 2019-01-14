@@ -139,11 +139,11 @@ slack.on('/get-tickets', (msg, bot) => {
     });
 
     console.log("JIRA auth");
-    console.log(msg);
-    console.log(msg.text);
+    console.log(msg.text.split(" ")[0]);
+    console.log(msg.text.split(" ")[1]);
 
     var opts = {
-      boardId: msg.text,
+      boardId: msg.text.split(" ")[0],
       fields: ["status", "summary"]
     };
 
