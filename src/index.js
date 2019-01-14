@@ -169,6 +169,50 @@ slack.on('/take-ticket', (msg, bot) => {
 
 });
 
+//Command to close a ticket with a certain ID
+slack.on('/close-ticket', (msg, bot) => {
+
+  if (msg.text == "") {
+    bot.reply({text: "Please specify a JIRA ticket to move to done."});
+  } else {
+
+    var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
+    var JiraClient = require('jira-connector');
+    var key = msg.text.trim();
+
+    var jira = new JiraClient( {
+      host: 'liatrio.atlassian.net',
+      basic_auth: {
+        username: JIRA_CREDS.split(":")[0],
+        password: JIRA_CREDS.split(":")[1]
+      }
+    });
+    jira.issue.getTransitions({ issueKey: key}, function(error, transitions) {
+      if (error) {
+        console.log("failure");
+      }
+      else {
+        var transitionId = transitions.transitions[transitions.transitions.length-1].id
+        var closed = { 
+          update: { comment: [{ add: { body: "This ticket was closed via a Slack command." } }] },
+          fields: {},
+          transition: { id: `${transitionId}`}
+        };
+        jira.issue.transitionIssue({ issueKey: key, transition: closed}, function(error, issue) {
+          if (error) {
+            console.log(error);
+          }
+          else {
+            bot.replyPrivate({text: "Issue has been closed."});
+          }
+        });
+      }
+    });
+
+  }
+
+});
+
 //Command to create a pipeline with a given name
 slack.on('/get-tickets', (msg, bot) => {
 
