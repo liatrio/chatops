@@ -42,6 +42,8 @@ custom:
 
   # Verification token
   slack_verification_token: ${env:SLACK_VERIFICATION_TOKEN}
+
+  slack_access_token: ${env:SLACK_ACCESS_TOKEN}
   
   # Space delimited scopes
   slack_client_scopes: "bot commands incoming-webhook"
@@ -57,6 +59,9 @@ custom:
 
   # Jenkins target job
   jenkins_target_job: ${env:JENKINS_TARGET_JOB}
+
+  # Credentials for the bot to access the JIRA API
+  jira_api_credentials: ${env:JIRA_API_CREDENTIALS}
 
 
   
@@ -82,9 +87,12 @@ provider:
     CLIENT_SCOPES: ${self:custom.slack_client_scopes}
     INSTALL_REDIRECT: ${self:custom.slack_install_redirect}
     VERIFICATION_TOKEN: ${self:custom.slack_verification_token}
+    ACCESS_TOKEN: ${self:custom.slack_access_token}
     ENABLE_LOGGING: ${self:custom.slack_enable_logging}
     JENKINS_API_CREDENTIALS: ${self:custom.jenkins_api_credentials}
     JENKINS_TARGET_JOB: ${self:custom.jenkins_target_job}
+    JIRA_API_CREDENTIALS: ${self:custom.jira_api_credentials}
+
 
 
 

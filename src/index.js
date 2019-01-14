@@ -2,6 +2,8 @@
 
 // Include the serverless-slack bot framework
 const slack = require('serverless-slack');
+const request = require('request');
+var querystring = require('querystring');
 
 
 // The function that AWS Lambda will call
@@ -28,7 +30,7 @@ slack.on('/pipeline-pal-greet', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.replyPrivate(message); 
+  bot.replyPrivate(message);
 });
 
 
@@ -38,7 +40,7 @@ slack.on('/greet', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.reply(message); 
+  bot.reply(message);
 });
 
 slack.on('/build', (msg, bot) => {
@@ -63,7 +65,7 @@ slack.on('/build', (msg, bot) => {
   };
 
   // ephemeral reply
-  bot.reply(message); 
+  bot.reply(message);
 });
 
 //Command to create a pipeline with a given name
@@ -115,6 +117,150 @@ slack.on('/launch-pipeline', (msg, bot) => {
     });
 
 });
+
+//Command to take a ticket with a certain ID
+slack.on('/take-ticket', (msg, bot) => {
+
+  if (msg.text == "") {
+    bot.reply({text: "Please specify a JIRA ticket to assign to yourself."});
+  } else {
+
+    var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
+    var JiraClient = require('jira-connector');
+
+    var jira = new JiraClient( {
+      host: 'liatrio.atlassian.net',
+      basic_auth: {
+        username: JIRA_CREDS.split(":")[0],
+        password: JIRA_CREDS.split(":")[1]
+      }
+    });
+
+    console.log(msg);
+    const auth = "Bearer " + process.env.ACCESS_TOKEN;
+    const key = msg.text.trim();
+    const options = { 
+      method: 'GET', url: 'https://liatrio.slack.com/api/users.list',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': auth }
+    };
+    request(options, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        const list = JSON.parse(body);
+        console.log(list);
+        for (var i = 0; i < list.members.length; i++){
+          if (list.members[i].name == msg.user_name){
+            jira.issue.assignIssue({ issueKey: key, assignee: list.members[i].profile.email.split("@")[0]}, function(error, issue) {
+              if (error) {
+                bot.replyPrivate({text: "failure"});
+              }
+              else {
+                bot.replyPrivate({text: "Issue has been assigned to you."});
+              }
+            });
+          }
+        }
+      }
+      else {
+        console.log(error);
+      }
+    });
+
+  }
+
+});
+
+//Command to create a pipeline with a given name
+slack.on('/get-tickets', (msg, bot) => {
+
+  if (msg.text == "") {
+    bot.reply({text: "Please specify a JIRA board to query."});
+  } else {
+
+    var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
+    var JiraClient = require('jira-connector');
+
+    var jira = new JiraClient( {
+      host: 'liatrio.atlassian.net',
+      basic_auth: {
+        username: JIRA_CREDS.split(":")[0],
+        password: JIRA_CREDS.split(":")[1]
+      }
+    });
+
+    jira.board.getIssuesForBoard({
+      projectKey: "LIB"
+      // projectKey: msg.text
+    }, function(error, issues) {
+      if (error) {
+        bot.reply({text: "There was an error: " + error});
+      } else {
+        bot.reply({text: issues});
+      }
+    });
+  }
+
+});
+
+//Dev Command to create a pipeline with a given name
+slack.on('/get-tickets2', (msg, bot) => {
+   // bot.reply({text: "Testing"});
+    var ticket = [];
+
+     var temp0 = {
+       t_number: "121",
+       t_summary: "Research Ways To Embed Kibana Into A Webpage",
+       t_status: "To Demo",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-121"
+    };
+    var temp1 = {
+       t_number: "122",
+       t_summary: "Canvas JS demo",
+       t_status: "To Do",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-122"
+    };
+
+    var temp2 = {
+       t_number: "123",
+       t_summary: "Grafana Demo",
+       t_status: "To Do",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-123"
+    };
+
+     var temp3 = {
+       t_number: "124",
+       t_summary: "Dashboard ElasticSearch Mapping",
+       t_status: "In Progress",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-124"
+    };
+
+     var temp4 = {
+       t_number: "125",
+       t_summary: "Research pulling results from Selenium into ElasticSearch",
+       t_status: "In Progress",
+       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
+    };
+
+    ticket.push(temp0);
+    ticket.push(temp1);
+    ticket.push(temp2);
+    ticket.push(temp3);
+    ticket.push(temp4);
+    /*
+    for (var j = 0; j < 5; i++)
+    {
+        ticket.push(temp[j]);
+    }
+    */
+
+    var message = 'Showing Tickets for ' + msg.text + '\n'
+    var ticket_Length = ticket.length;
+    for (var i = 0; i < ticket_Length; i++)
+    {
+        message += 'Ticket # ' + ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
+    }
+    bot.reply({text: message});
+});
+
 // Interactive Message handler
 slack.on('wopr_game', (msg, bot) => {
   var message;
@@ -139,7 +285,7 @@ slack.on('wopr_game', (msg, bot) => {
       if ((new Date().getTime() - start) > 10000){
               break;
       }
-        
+
     }
     msg = {
       "title": "Build",
@@ -165,10 +311,10 @@ slack.on('wopr_game', (msg, bot) => {
 
 // Interactive Message handler
 slack.on('greetings_click', (msg, bot) => {
-  let message = { 
+  let message = {
     // selected button value
-    text: msg.actions[0].value 
-  };  
+    text: msg.actions[0].value
+  };
 
   // public reply
   bot.reply(message);
@@ -177,7 +323,7 @@ slack.on('greetings_click', (msg, bot) => {
 
 // Reaction Added event handler
 slack.on('reaction_added', (msg, bot) => {
-  bot.reply({ 
-    text: ':wave:' 
+  bot.reply({
+    text: ':wave:'
   });
 });
