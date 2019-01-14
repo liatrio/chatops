@@ -155,7 +155,9 @@ slack.on('/get-tickets', (msg, bot) => {
       } else {
         console.log(issues);
         for (issue in issues) {
-          bot.reply({text: issue.fields.summary + " - " issue.fields.issuetype});
+          // bot.reply({text: issue.fields.summary + " - " issue.fields.issuetype});
+          bot.reply({text: issue});
+          console.log({text: issue});
         }
       }
     });
