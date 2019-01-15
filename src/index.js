@@ -181,7 +181,7 @@ slack.on('/close-ticket', (msg, bot) => {
     var key = msg.text.trim();
 
     var jira = new JiraClient( {
-      host: 'liatrio.atlassian.net',
+      host: process.env.JIRA_HOST,
       basic_auth: {
         username: JIRA_CREDS.split(":")[0],
         password: JIRA_CREDS.split(":")[1]

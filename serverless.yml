@@ -63,6 +63,8 @@ custom:
   # Credentials for the bot to access the JIRA API
   jira_api_credentials: ${env:JIRA_API_CREDENTIALS}
 
+  jira_host: ${env:JIRA_HOST}
+
 
   
 
@@ -92,6 +94,7 @@ provider:
     JENKINS_API_CREDENTIALS: ${self:custom.jenkins_api_credentials}
     JENKINS_TARGET_JOB: ${self:custom.jenkins_target_job}
     JIRA_API_CREDENTIALS: ${self:custom.jira_api_credentials}
+    JIRA_HOST: ${self:custom.jira_host}
 
 
 
