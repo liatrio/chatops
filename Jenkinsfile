@@ -21,7 +21,7 @@ pipeline {
     AWS_SECRET_ACCESS_KEY = credentials('shanem-aws-secret-access-key')
     JENKINS_API_CREDENTIALS = credentials('pipeline-pal-jenkins-credentials')
     JIRA_API_CREDENTIALS = credentials('pipeline-pal-jira-credentials')
-    JIRA_HOST = "liatrio.atlassian.net"
+    JIRA_HOST = "jira.liatr.io"
   }
   stages {
     stage('Build') {
