@@ -139,8 +139,8 @@ slack.on('/get-tickets', (msg, bot) => {
     });
 
     console.log("JIRA auth");
-    console.log(msg.text.split(" ")[0]);
-    console.log(msg.text.split(" ")[1]);
+    // console.log(msg.text.split(" ")[0]);
+    // console.log(msg.text.split(" ")[1]);
 
     var opts = {
       boardId: msg.text.split(" ")[0],
@@ -167,7 +167,7 @@ slack.on('/get-tickets', (msg, bot) => {
 });
 
 //Dev Command to create a pipeline with a given name
-slack.on('/get-tickets2', (msg, bot) => {
+slack.on('/get-tickets-dev', (msg, bot) => {
    // bot.reply({text: "Testing"});
     var ticket = [];
 
