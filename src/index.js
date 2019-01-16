@@ -158,7 +158,7 @@ slack.on('/get-tickets', (msg, bot) => {
       } else {
         console.log(issues.issues.length);
         for (var i = 0; i < issues.issues.length; i++) {
-          output += "\n" + issues.issues[i].summary;
+          output += "\n" + issues.issues[i].fields.summary;
           console.log(issues.issues[i]);
         }
       }
