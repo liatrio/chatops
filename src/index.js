@@ -129,7 +129,8 @@ slack.on('/take-ticket', (msg, bot) => {
     var JiraClient = require('jira-connector');
 
     var jira = new JiraClient( {
-      host: 'liatrio.atlassian.net',
+      host: process.env.JIRA_HOST,
+      protocol: "http",
       basic_auth: {
         username: JIRA_CREDS.split(":")[0],
         password: JIRA_CREDS.split(":")[1]
@@ -146,15 +147,36 @@ slack.on('/take-ticket', (msg, bot) => {
     request(options, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         const list = JSON.parse(body);
-        console.log(list);
         for (var i = 0; i < list.members.length; i++){
           if (list.members[i].name == msg.user_name){
             jira.issue.assignIssue({ issueKey: key, assignee: list.members[i].profile.email.split("@")[0]}, function(error, issue) {
-              if (error) {
-                bot.replyPrivate({text: "failure"});
-              }
+              if (error) { bot.replyPrivate({text: "failure"}); }
               else {
-                bot.replyPrivate({text: "Issue has been assigned to you."});
+                jira.issue.getIssue({ issueKey: key}, function(error, is) {
+                  if (error) { console.log(error); }
+                  else {
+                    var bitbucketUrl = "http://" + JIRA_CREDS + "@bitbucket.liatr.io/rest/api/1.0/"
+                    request({url: bitbucketUrl + `projects/${is.fields.project.key}/repos`}, function(err, res, bod) {
+                      var actions = [];
+                      var repos = JSON.parse(bod);
+
+                      for (var i = 0; i < repos.values.length; i++){
+                        var action = { type: "button", name: `${repos.values[i].slug}`, text: `${repos.values[i].slug}`, value: `${is.fields.project.key}-${repos.values[i].slug}` }
+                        actions.push(action);
+                      }
+
+                      let message = {
+                        text: "Issue has been assigned to you. Want to create a branch?",
+                        attachments: [{
+                          fallback: 'actions',
+                          callback_id: "take_ticket_callback",
+                          actions: actions
+                        }]
+                      };
+                      bot.replyPrivate(message);
+                    });
+                  }
+                });
               }
             });
           }
@@ -167,6 +189,24 @@ slack.on('/take-ticket', (msg, bot) => {
 
   }
 
+});
+slack.on('take_ticket_callback', (msg, bot) => {
+  bot.replyPrivate({text: msg.actions[0].value})
+  //bitbucketUrl = "http://" + JIRA_CREDS + "@bitbucket.liatr.io/rest/branch-utils/1.0/"
+  //var postData = {
+  //  name: ,
+  //  startPoint: "refs/heads/master"
+  //}
+  //request({url: bitbucketUrl + "projects/" +  + "/repos/" + msg.actions[0].value + "/branches", 
+  //         headers: { 'X-Atlassian-Token': 'no-check' }, json: true,
+  //         method: 'post', body: postData}, function(err, res, bod) {
+  //  if (error) {
+  //    console.log(err);
+  //  }
+  //  else {
+  //    bot.replyPrivate({text: "branch has been made. Check it out here.")
+  //  }
+  //});
 });
 
 //Command to close a ticket with a certain ID
