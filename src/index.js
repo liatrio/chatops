@@ -136,7 +136,7 @@ slack.on('/get-tickets', (msg, bot) => {
 
     var opts = {
       boardId: msg.text.split(" ")[0],
-      maxResults = 9999,
+      maxResults = "9999",
       fields: ["status", "summary"]
     };
 
