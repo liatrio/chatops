@@ -161,9 +161,10 @@ slack.on('/get-tickets', (msg, bot) => {
           output += "\n" + issues.issues[i].summary;
           console.log(issues.issues[i]);
         }
-        bot.reply(output);
       }
     });
+    bot.reply(output);
+    console.log(output);
   }
 
 });
