@@ -145,7 +145,7 @@ slack.on('/get-tickets', (msg, bot) => {
     var statusFilter = (msg.text.split(" ")[1] == undefined ? "open" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
     console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
-    var boardTickets = [];
+    var ticketAttachments = [];
     jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
         console.log("error");
@@ -159,15 +159,18 @@ slack.on('/get-tickets', (msg, bot) => {
             t_status: issues.issues[i].fields.status.name,
             t_link: "https://" + JIRA_HOST + "/secure/RapidBoard.jspa?rapidView=" + msg.text.split(" ")[0] + "&modal=detail&selectedIssue=" + issues.issues[i].key
           };
-          boardTickets.push(newTicket);
           console.log(issues.issues[i]);
           if (newTicket.t_status.toLowerCase() == statusFilter) {
-            output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
+            // output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
+            var ticketAttachment = {
+              text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + "`" + newTicket.t_status + "` " + newTicket.t_summary;
+            }
+            ticketAttachments.push(ticketAttachment);
           }
         }
       }
       console.log("End of get issues");
-      bot.reply({text: output});
+      bot.reply({text: output, attachments: ticketAttachments});
       console.log(output);
     });
   }
