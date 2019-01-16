@@ -140,7 +140,7 @@ slack.on('/get-tickets', (msg, bot) => {
       fields: ["status", "summary"]
     };
 
-    var statusFilter = (msg.text.split(" ")[1] == "" ? "open" : msg.text.split(" ")[1].toLowerCase());
+    var statusFilter = (msg.text.split(" ")[1] == undefined ? "open" : msg.text.substr(msg.text.indexOf(' ')+1));
     console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var boardTickets = [];
