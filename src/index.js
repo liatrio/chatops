@@ -136,9 +136,12 @@ slack.on('/get-tickets', (msg, bot) => {
 
     var opts = {
       boardId: msg.text.split(" ")[0],
+      maxResults = 9999,
       fields: ["status", "summary"]
     };
 
+    var statusFilter = (msg.text.split(" ")[1] == "" ? "open" : msg.text.split(" ")[1].toLowerCase());
+    console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var boardTickets = [];
     jira.board.getIssuesForBoard(opts, function(error, issues) {
@@ -149,14 +152,16 @@ slack.on('/get-tickets', (msg, bot) => {
         console.log(issues.issues.length);
         for (var i = 0; i < issues.issues.length; i++) {
           var newTicket = {
-            t_key: issues.issues[i].fields.key,
+            t_key: issues.issues[i].key,
             t_summary: issues.issues[i].fields.summary,
             t_status: issues.issues[i].fields.status.name,
             t_link: "www.google.com"
           };
           boardTickets.push(newTicket);
           console.log(issues.issues[i]);
-          output += newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status + '\n';
+          if (newTicket.t_status.toLowerCase() == statusFilter) {
+            output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
+          }
         }
       }
       console.log("End of get issues");
