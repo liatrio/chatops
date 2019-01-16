@@ -126,8 +126,10 @@ slack.on('/get-tickets', (msg, bot) => {
     var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
     var JiraClient = require('jira-connector');
 
+    var JIRA_HOST = 'liatrio.atlassian.net';
+
     var jira = new JiraClient( {
-      host: 'liatrio.atlassian.net',
+      host: JIRA_HOST,
       basic_auth: {
         username: JIRA_CREDS.split(":")[0],
         password: JIRA_CREDS.split(":")[1]
@@ -140,7 +142,7 @@ slack.on('/get-tickets', (msg, bot) => {
       fields: ["status", "summary"]
     };
 
-    var statusFilter = (msg.text.split(" ")[1] == undefined ? "open" : msg.text.substr(msg.text.indexOf(' ')+1));
+    var statusFilter = (msg.text.split(" ")[1] == undefined ? "open" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
     console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var boardTickets = [];
@@ -155,7 +157,7 @@ slack.on('/get-tickets', (msg, bot) => {
             t_key: issues.issues[i].key,
             t_summary: issues.issues[i].fields.summary,
             t_status: issues.issues[i].fields.status.name,
-            t_link: "www.google.com"
+            t_link: "https://" + JIRA_HOST + "/secure/RapidBoard.jspa?rapidView=" + msg.text.split(" ")[0] + "&modal=detail&selectedIssue=" + issues.issues[i].key
           };
           boardTickets.push(newTicket);
           console.log(issues.issues[i]);
