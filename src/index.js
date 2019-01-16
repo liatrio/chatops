@@ -123,12 +123,8 @@ slack.on('/get-tickets', (msg, bot) => {
     bot.reply({text: "Please specify a JIRA board to query."});
   } else {
 
-    console.log("Valid get tickets command");
-
     var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
     var JiraClient = require('jira-connector');
-
-    console.log("API initialized");
 
     var jira = new JiraClient( {
       host: 'liatrio.atlassian.net',
@@ -138,19 +134,13 @@ slack.on('/get-tickets', (msg, bot) => {
       }
     });
 
-    console.log("JIRA auth");
-    // console.log(msg.text.split(" ")[0]);
-    // console.log(msg.text.split(" ")[1]);
-
     var opts = {
       boardId: msg.text.split(" ")[0],
       fields: ["status", "summary"]
     };
 
-    // jira.issue.getIssue({
-    //   issueKey: msg.text
-    // }, function(error, issue) {
     var output = "Ticket list for " + msg.text.split(" ")[0];
+    var boardTickets = [];
     jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
         console.log("error");
@@ -158,8 +148,15 @@ slack.on('/get-tickets', (msg, bot) => {
       } else {
         console.log(issues.issues.length);
         for (var i = 0; i < issues.issues.length; i++) {
-          output += '\n' + issues.issues[i].fields.summary;
+          var newTicket = {
+            t_key: issues.issues[i].fields.key,
+            t_summary: issues.issues[i].fields.summary,
+            t_status: issues.issues[i].fields.status.name,
+            t_link: "www.google.com"
+          };
+          boardTickets.push(newTicket);
           console.log(issues.issues[i]);
+          output += newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status + '\n';
         }
       }
       console.log("End of get issues");
