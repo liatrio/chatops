@@ -142,7 +142,7 @@ slack.on('/get-tickets', (msg, bot) => {
       fields: ["status", "summary"]
     };
 
-    var statusFilter = (msg.text.split(" ")[1] == undefined ? "open" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
+    var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
     console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var ticketAttachments = [];
@@ -163,7 +163,7 @@ slack.on('/get-tickets', (msg, bot) => {
           if (newTicket.t_status.toLowerCase() == statusFilter) {
             // output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
             var ticketAttachment = {
-              text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + "`" + newTicket.t_status + "` " + newTicket.t_summary;
+              text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + "`" + newTicket.t_status + "` " + newTicket.t_summary
             }
             ticketAttachments.push(ticketAttachment);
           }
