@@ -163,7 +163,7 @@ slack.on('/get-tickets', (msg, bot) => {
         }
       }
       console.log("End of get issues");
-      bot.reply(output);
+      bot.reply({text: output});
       console.log(output);
     });
   }
