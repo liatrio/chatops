@@ -129,7 +129,7 @@ slack.on('/get-tickets', (msg, bot) => {
     var JIRA_HOST = 'liatrio.atlassian.net';
 
     var jira = new JiraClient( {
-      host: JIRA_HOST,
+      host: "liatrio.atlassian.net",
       basic_auth: {
         username: JIRA_CREDS.split(":")[0],
         password: JIRA_CREDS.split(":")[1]
