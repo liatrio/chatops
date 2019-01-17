@@ -146,6 +146,10 @@ slack.on('/get-tickets', (msg, bot) => {
     console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var ticketAttachments = [];
+
+    jira.board.getBoard({boardId: "57"}, function(error, boardInfo) {
+      console.log("binfo: " + boardInfo);
+    }
     jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
         console.log("error");
