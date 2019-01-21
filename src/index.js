@@ -148,7 +148,7 @@ slack.on('/get-tickets', (msg, bot) => {
     var ticketAttachments = [];
 
     jira.board.getBoard({boardId: "57"}, function(error, boardInfo) {
-      console.log("binfo: " + boardInfo);
+      console.log(boardInfo);
     });
 
     jira.board.getIssuesForBoard(opts, function(error, issues) {
