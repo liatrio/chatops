@@ -223,86 +223,49 @@ slack.on('/get-tickets', (msg, bot) => {
     var JIRA_CREDS = process.env.JIRA_API_CREDENTIALS;
     var JiraClient = require('jira-connector');
 
+    var JIRA_HOST = 'liatrio.atlassian.net';
+
     var jira = new JiraClient( {
-      host: 'liatrio.atlassian.net',
+      host: "liatrio.atlassian.net",
       basic_auth: {
         username: JIRA_CREDS.split(":")[0],
         password: JIRA_CREDS.split(":")[1]
       }
     });
 
-    jira.board.getIssuesForBoard({
-      projectKey: "LIB"
-      // projectKey: msg.text
-    }, function(error, issues) {
+    var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
+
+    var opts = {
+      boardId: msg.text.split(" ")[0],
+      maxResults: "9999",
+      fields: ["status", "summary"],
+      jql: "status in ('" + statusFilter + "')"
+    };
+
+    var output = "Ticket list for " + msg.text.split(" ")[0];
+    var ticketAttachments = [];
+
+    jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
-        bot.reply({text: "There was an error: " + error});
+        output = "There was an error: " + error;
       } else {
-        bot.reply({text: issues});
+        for (var i = 0; i < issues.issues.length; i++) {
+          var newTicket = {
+            t_key: issues.issues[i].key,
+            t_summary: issues.issues[i].fields.summary,
+            t_status: issues.issues[i].fields.status.name,
+            t_link: "https://" + JIRA_HOST + "/secure/RapidBoard.jspa?rapidView=" + msg.text.split(" ")[0] + "&modal=detail&selectedIssue=" + issues.issues[i].key
+          };
+          var ticketAttachment = {
+            text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + newTicket.t_summary + " - *" + newTicket.t_status + "*"
+          }
+          ticketAttachments.push(ticketAttachment);
+        }
       }
+      bot.reply({text: output, attachments: ticketAttachments});
     });
   }
 
-});
-
-//Dev Command to create a pipeline with a given name
-slack.on('/get-tickets2', (msg, bot) => {
-   // bot.reply({text: "Testing"});
-    var ticket = [];
-
-     var temp0 = {
-       t_number: "121",
-       t_summary: "Research Ways To Embed Kibana Into A Webpage",
-       t_status: "To Demo",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-121"
-    };
-    var temp1 = {
-       t_number: "122",
-       t_summary: "Canvas JS demo",
-       t_status: "To Do",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-122"
-    };
-
-    var temp2 = {
-       t_number: "123",
-       t_summary: "Grafana Demo",
-       t_status: "To Do",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-123"
-    };
-
-     var temp3 = {
-       t_number: "124",
-       t_summary: "Dashboard ElasticSearch Mapping",
-       t_status: "In Progress",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-124"
-    };
-
-     var temp4 = {
-       t_number: "125",
-       t_summary: "Research pulling results from Selenium into ElasticSearch",
-       t_status: "In Progress",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
-    };
-
-    ticket.push(temp0);
-    ticket.push(temp1);
-    ticket.push(temp2);
-    ticket.push(temp3);
-    ticket.push(temp4);
-    /*
-    for (var j = 0; j < 5; i++)
-    {
-        ticket.push(temp[j]);
-    }
-    */
-
-    var message = 'Showing Tickets for ' + msg.text + '\n'
-    var ticket_Length = ticket.length;
-    for (var i = 0; i < ticket_Length; i++)
-    {
-        message += 'Ticket # ' + ticket[i].t_number + ' - ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
-    }
-    bot.reply({text: message});
 });
 
 // Interactive Message handler
