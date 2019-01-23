@@ -141,6 +141,7 @@ slack.on('/get-tickets', (msg, bot) => {
       maxResults: "9999",
       fields: ["status", "summary"]
       // jql: "status IN ('In Progress')"
+      jql: "status=done"
     };
 
     var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
@@ -162,19 +163,18 @@ slack.on('/get-tickets', (msg, bot) => {
             t_link: "https://" + JIRA_HOST + "/secure/RapidBoard.jspa?rapidView=" + msg.text.split(" ")[0] + "&modal=detail&selectedIssue=" + issues.issues[i].key
           };
           console.log(issues.issues[i]);
-          if (newTicket.t_status.toLowerCase() == statusFilter) {
+          // if (newTicket.t_status.toLowerCase() == statusFilter) {
             // output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
             var ticketAttachment = {
               // text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + "`" + newTicket.t_status + "` " + newTicket.t_summary
               text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + newTicket.t_summary + " - *" + newTicket.t_status + "*"
             }
             ticketAttachments.push(ticketAttachment);
-          }
+          // }
         }
       }
       console.log("End of get issues");
       bot.reply({text: output, attachments: ticketAttachments});
-      console.log(output);
     });
   }
 
