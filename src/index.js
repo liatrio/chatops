@@ -136,7 +136,8 @@ slack.on('/get-tickets', (msg, bot) => {
       }
     });
 
-    var statusFilter = (msg.text.split(" ")[1] ? msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase()) : "to do";
+    var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
+    console.log(statusFilter);
 
     var opts = {
       boardId: msg.text.split(" ")[0],
@@ -145,7 +146,6 @@ slack.on('/get-tickets', (msg, bot) => {
       jql: "status in ('" + statusFilter + "')"
     };
 
-    console.log(statusFilter);
     var output = "Ticket list for " + msg.text.split(" ")[0];
     var ticketAttachments = [];
 
