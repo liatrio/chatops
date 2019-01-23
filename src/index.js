@@ -140,8 +140,7 @@ slack.on('/get-tickets', (msg, bot) => {
       boardId: msg.text.split(" ")[0],
       maxResults: "9999",
       fields: ["status", "summary"]
-      // jql: "status IN ('In Progress')"
-      jql: "status=done"
+      jql: "status%20IN%20(%27In%20Progress%27)"
     };
 
     var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
