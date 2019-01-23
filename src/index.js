@@ -137,7 +137,6 @@ slack.on('/get-tickets', (msg, bot) => {
     });
 
     var statusFilter = (msg.text.split(" ")[1] == undefined ? "to do" : msg.text.substr(msg.text.indexOf(' ')+1).toLowerCase());
-    console.log(statusFilter);
 
     var opts = {
       boardId: msg.text.split(" ")[0],
@@ -151,10 +150,8 @@ slack.on('/get-tickets', (msg, bot) => {
 
     jira.board.getIssuesForBoard(opts, function(error, issues) {
       if (error) {
-        console.log("error");
         output = "There was an error: " + error;
       } else {
-        console.log(issues.issues.length);
         for (var i = 0; i < issues.issues.length; i++) {
           var newTicket = {
             t_key: issues.issues[i].key,
@@ -162,80 +159,16 @@ slack.on('/get-tickets', (msg, bot) => {
             t_status: issues.issues[i].fields.status.name,
             t_link: "https://" + JIRA_HOST + "/secure/RapidBoard.jspa?rapidView=" + msg.text.split(" ")[0] + "&modal=detail&selectedIssue=" + issues.issues[i].key
           };
-          console.log(issues.issues[i]);
-          // output += '\n' + newTicket.t_key + ' : ' +  `<${newTicket.t_link}|${newTicket.t_summary}>` + ' - ' + newTicket.t_status;
           var ticketAttachment = {
-            // text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + "`" + newTicket.t_status + "` " + newTicket.t_summary
             text: `<${newTicket.t_link}|${newTicket.t_key}>` + ': ' + newTicket.t_summary + " - *" + newTicket.t_status + "*"
           }
           ticketAttachments.push(ticketAttachment);
         }
       }
-      console.log("End of get issues");
       bot.reply({text: output, attachments: ticketAttachments});
     });
   }
 
-});
-
-//Dev Command to create a pipeline with a given name
-slack.on('/get-tickets-dev', (msg, bot) => {
-   // bot.reply({text: "Testing"});
-    var ticket = [];
-
-     var temp0 = {
-       t_number: "121",
-       t_summary: "Research Ways To Embed Kibana Into A Webpage",
-       t_status: "To Demo",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-121"
-    };
-    var temp1 = {
-       t_number: "122",
-       t_summary: "Canvas JS demo",
-       t_status: "To Do",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-122"
-    };
-
-    var temp2 = {
-       t_number: "123",
-       t_summary: "Grafana Demo",
-       t_status: "To Do",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-123"
-    };
-
-     var temp3 = {
-       t_number: "124",
-       t_summary: "Dashboard ElasticSearch Mapping",
-       t_status: "In Progress",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-124"
-    };
-
-     var temp4 = {
-       t_number: "125",
-       t_summary: "Research pulling results from Selenium into ElasticSearch",
-       t_status: "In Progress",
-       t_link: "https://liatrio.atlassian.net/secure/RapidBoard.jspa?rapidView=57&projectKey=ENG&modal=detail&selectedIssue=ENG-125"
-    };
-
-    ticket.push(temp0);
-    ticket.push(temp1);
-    ticket.push(temp2);
-    ticket.push(temp3);
-    ticket.push(temp4);
-    /*
-    for (var j = 0; j < 5; i++)
-    {
-        ticket.push(temp[j]);
-    }
-    */
-
-    var message = 'Showing Tickets for ' + msg.text + '\n'
-    var ticket_Length = ticket.length;
-    for (var i = 0; i < ticket_Length; i++)
-    {
-        message += msg.text + '-' + ticket[i].t_number + ' : ' +  `<${ticket[i].t_link}|${ticket[i].t_summary}>` + ' - ' + ticket[i].t_status + '\n';
-    }
-    bot.reply({text: message});
 });
 
 // Interactive Message handler
